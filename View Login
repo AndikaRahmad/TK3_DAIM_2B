@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-6 rounded shadow-md w-[460px]">
+        <div class="flex items-center mb-6 gap-3">
+            <img src="../assets/icon-team.svg" alt="" />
+            <div class="text-lg font-semibold">Team 5</div>
+        </div>
+        <!-- JUDUL -->
+        <div class="text-2xl mb-1 font-semibold">Login</div>
+        <div class="text-sm mb-5 text-gray-500">Welcome to our dashboard</div>
+
+        <!-- FORM LOGIN -->
+        <form action="../controllers/loginController.php" method="post">
+
+            <!-- INPUT EMAIL -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium mb-2">Email Address</label>
+                <input type="email" id="email" name="email" class="form-input text-sm w-full px-3 py-2 rounded-md border">
+            </div>
+
+            <!-- INPUT PASSWORD -->
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-medium mb-2">Password</label>
+                <input type="password" id="password" name="password" class="form-input text-sm w-full px-3 py-2 rounded-md border">
+            </div>
+
+            <!-- CHECKLIST REMEMBER ME -->
+            <div class="mb-4 flex align-center gap-2">
+                <input type="checkbox" id="remember" name="remember" class="form-checkbox text-blue-500">
+                <label for="remember" class="text-xs text-gray-600">Remember Me</label>
+            </div>
+
+            <!-- BUTTON SUBMIT LOGIN -->
+            <button type="submit" class="bg-[#418575] text-sm font-medium w-full text-white px-4 py-2 rounded-md hover:bg-opacity-80">Login</button>
+        </form>
+
+        <!-- LINK UNTUK PINDAH KE HALAMAN REGISTER -->
+        <div class="text-sm flex justify-center items-center my-6 hover:text-blue-600">
+            <a href="register.php">Don't have an account?</a>
+        </div>
+
+        <!-- PESAN ERROR KETIKA GAGAL LOGIN -->
+        <?php
+        if (isset($_GET['error'])) {
+            echo '<p style="color: red;">Login failed. Please check your email and password.</p>';
+        }
+        ?>
+    </div>
+</body>
+
+</html>
