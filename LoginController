@@ -1,0 +1,51 @@
+<?php
+// IMPORT DATA DARI FILE dummyData
+require_once '../dummyData.php';
+
+// MENYIMPAN DATA USER_LIST DAN ROLE_LIST DARI DUMMY DATA
+$userList = USER_LIST;
+$roleList = ROLE_LIST;
+
+// MENDEFINISIKAN loggedIn BOOLEAN UNTUK CEK LOGIN BERHASIL ATAU TIDAK
+$loggedIn = false;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // MENYIMPAN DATA EMAIL DAN PASSWORD DARI INPUT FORM LOGIN
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    // MELOOPING DATA userList UNTUK MENCARI DATA LOGIN YANG SESUAI
+    foreach ($userList as $user) {
+        // KONDISI JIKA INPUT EMAIL DAN PASSWORD TERDAFTAR PADA DUMMY DATA
+        if ($user->email === $email && $user->password === $password) {
+            // JIKA MATCH loggedIn DISET MENJADI TRUE
+            $loggedIn = true;
+
+            // MEMBUAT FUNCTION UNTUK MAPPING NAMA ROLE DARI roleList BERDASARKAN ROLE ID
+            function getRoleName($roleId, $roles)
+            {
+                foreach ($roles as $role) {
+                    if ($role->id == $roleId) {
+                        return $role->name;
+                    }
+                }
+                return "Role Not Found";
+            }
+
+            // MEMANGGIL FUNCTION getRoleName DENGAN PARAMETER FIELD ROLE YANG ADA DI USER DAN roleList
+            $userRole = getRoleName($user->role, $roleList);
+
+            // REDIRECT KE HALAMAN DASHBOARD SESUAI ROLE USER LOGIN
+            header("Location: ../views/dashboard.php?name=$user->name&role_name=$userRole");
+            exit();
+            break;
+        }
+    }
+
+    // JIKA LOGIN GAGAL
+    if (!$loggedIn) {
+        // REDIRECT/KEMBALI KE HALAMAN LOGIN DENGAN MENAMPILKAN PESAN GAGAL LOGIN
+        header('Location: ../views/login.php?error=1');
+        exit();
+    }
+}
